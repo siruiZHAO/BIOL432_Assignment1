@@ -18,12 +18,12 @@ Limb_length <- rnorm(100, mean = 40, sd = 15)
 
 #4. A vector of 100 values for Observer, 
 #randomly selected from a vector of 3 names (you can use any names you like).
-Observer <- rep(c("Charles Darwin", "Gregor Mendel", "Robert Hooke", 
-                  "Andreas Vesalius", "Rachel Carson"), 20)
+Observer <- rep(c("Charles Darwin", "Gregor Mendel", "Robert Hooke"), 
+                times = c(33,33,34))
 Observer = paste0('"', Observer, '"')
 
 #5. Combine all of the vectors into a data.frame or tibble object 
 mydata <- data.frame(organism, Limb_width, Limb_length, Observer)
 mydata
 #and export to a CSV file called measurements.csv
-write.csv(mydata, "measurements.csv")
+write.csv(mydata, "measurements.csv", row.names=FALSE)
