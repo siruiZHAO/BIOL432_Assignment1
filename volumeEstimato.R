@@ -19,7 +19,7 @@ mydata <- mydata %>%
 head(mydata)
 
 # write as csv file
-write.csv(mydata, "measurements.csv")
+write.csv(mydata, "measurements.csv", row.names=FALSE)
 
 
 
