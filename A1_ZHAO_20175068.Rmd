@@ -1,0 +1,67 @@
+---
+title: "BIOL432_Assignment1"
+author: "SiruiZHAO"
+date: "2023-01-11"
+output: html_document
+---
+[my GitHub repository](https://github.com/siruiZHAO/BIOL432_Assignment1)
+
+First, load library
+```{r message=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+Then, we need to source two R scripts. 
+
+1). dataGenerato.R generate 4 varuables, organism, limb width, limb length and observer, and combine them into a data frame. 
+
+2). volumeEstimato.R add one variable called limb volume into the data frame. The limb volume calculated from the v = pi * (limb_width/2)^2 * limb_length
+```{r}
+source("dataGenerato.R", local = knitr::knit_global())
+source("volumeEstimato.R", local = knitr::knit_global())
+```
+
+1. Load the revised measurements.csv and library
+```{r}
+mydata <- read.csv("measurements.csv")
+```
+
+2. Use dplyr to sort the data by species, then by observer, then by limb volume
+```{r}
+mydata <- mydata %>% #use pipe in dplyr 
+  arrange(organism, Observer, limb_volume) # use arrange to sort column in order
+head(mydata)
+```
+
+3. Create a table showing the average volume for each species
+```{r}
+avg_volume <- mydata %>%     #select data frame
+  group_by(organism) %>%   #group rows by column values in the DataFrame
+  summarise(mean_volum = mean(limb_volume)) #calculate mean of limb volume
+avg_volume
+```
+
+4. Create a table showing the number of observations (i.e. rows) for each combination of species and observer.
+```{r}
+observation <- mydata %>%     #select data frame
+  group_by(organism, Observer) %>%  #group rows by two column values 
+  summarise(observations = n(), .group = "drop") %>%  #count frequency
+  as.data.frame()
+observation
+```
+
+5. Create a single box plot (or similar) to compare key features of the distributions of volumes for each species.
+```{r}
+#use ggplot2 to create box plot
+plot1 <- ggplot(mydata, aes(y = limb_volume, fill = organism)) + geom_boxplot() + labs(x = "Organism Scientific Name", y = "Limb Volume(cm^3)")
+plot1
+```
+
+6. Create a multi-panel plot showing frequency histograms showing the distribution of limb volume for each species. Note that this may require you to add code to you R markdown file to change the data from the wide to long format.
+```{r}
+#use facet_wrap() in ggplot2 to create multi-panel plot
+ggplot(mydata, aes(x = limb_volume)) +
+  geom_histogram() +
+  facet_wrap(vars(organism)) + labs(x = "Limb Volume (cm^3)", y = "Frequency")
+```
+Thanks!
