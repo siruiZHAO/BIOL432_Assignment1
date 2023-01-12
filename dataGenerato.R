@@ -23,7 +23,7 @@ Observer <- rep(c("Charles Darwin", "Gregor Mendel", "Robert Hooke",
 Observer = paste0('"', Observer, '"')
 
 #5. Combine all of the vectors into a data.frame or tibble object 
-mydata <- data.frame(organism, Limb_width, Limb_width, Observer)
+mydata <- data.frame(organism, Limb_width, Limb_length, Observer)
 mydata
 #and export to a CSV file called measurements.csv
 write.csv(mydata, "measurements.csv")
